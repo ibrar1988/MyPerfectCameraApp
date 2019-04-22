@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="darkGrey">#a6a6a6 </color>
+
+    <color name="actionbarbackground">#3E0001</color>
+    <color name="myPrimaryDarkColor">#000000</color>
+    <color name="myAccentColor">#000000</color>
+    <color name="myDrawerBackground">#000000</color>
+    <color name="myWindowBackground">#64B5F6</color>
+    <color name="myTextPrimaryColor">#FFFFFF</color>
+    <color name="myNavigationColor">#3E0001</color>
+    <!-- color name="selection">#F16E20</color -->
+    <color name="black_overlay">#66000000</color>
+    <color name="my_primary">#ED1C24</color>
+    <color name="my_primary_dark">#3E0001</color>
+    <color name="my_primary_light">#F16E20</color>
+    <color name="my_accent">#FF5722</color>
+    <color name="my_primary_text">#ffffff</color>
+    <color name="my_secondary_text">#ffffff</color>
+    <color name="my_icons">#FFFFFF</color>
+    <color name="my_divider">#B6B6B6</color>
+    <color name="toolbarcolor">#3E0001</color>
+    <color name="navigationdrawercolor">#3E0001</color>
+    <color name="textcolor">#616161</color>
+    <color name="textcolorwhite">#FFFFFF</color>
+    <color name="textblackcolor">#000000</color>
+    <color name="splashbackground">#3e0605</color>
+    <color name="layoutbackground">#FFFFFF</color>
+    <color name="buttonorange">#F16E20</color>
+    <color name="checkboxorange">#F16E20</color>
+    <color name="indicatorfillcolor">#F16E20</color>
+    <color name="indicatorpagecolor">#d3d3d3</color>
+    <color name="orange">#646663</color>
+    <color name="expandedlvdividercolor">#000000</color>
+    <color name="listparenttitlecolor">#F16E20</color>
+    <color name="default_screen_bg">#f9f9f9</color>
+    <color name="rounded_container_bg">#222222</color>
+    <color name="rounded_container_border">#3b3f44</color>
+    <color name="light_gray_header_color">#646663</color>
+    <color name="orangecolor">#F16E20</color>
+    <color name="color_green">#6CB947</color>
+    <color name="color_dark_grey">#C6C6C6</color>
+    <color name="color_light_grey">#DBDBDB</color>
+    <color name="color_dim_grey">#F1F1F1</color>
+    <color name="color_orange">#EC7019</color>
+    <color name="color_yellow">#FEDD27</color>
+    <color name="edclickedshapecolor">#FF8000</color>
+    <color name="edclickedfalseshapecolor">#FFFFFF</color>
+    <color name="edstartcolor">#F2F2F2</color>
+    <color name="edstrokecolor">#BDBDBD</color>
+
+    <color name="edclickedshapecolorgrey">#d3d3d3</color>
+    <color name="edstartcolorgrey">#DEDCDC</color>
+    <color name="edstrokecolorgrey">#BABABA</color>
+    <color name="edclickedfalseshapecolorgrey">#C7C7C7</color>
+    <color name="tabsScrollColor">#8a140e</color>
+    <!-- BillDesk Colors -->
+    <color name="header_bg">#3E0001</color>
+    <!--   <color name="body_bg">#FFFFFF</color> -->
+    <color name="body_text">#000000</color>
+    <color name="transparent">#000000</color>
+    <color name="label_bg">#FFC641</color>
+</resources>
