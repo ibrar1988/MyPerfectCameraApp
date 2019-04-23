@@ -43,9 +43,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //if(parameters==null) {
         parameters = mCamera.getParameters();
-        //}
     }
 
     @Override
@@ -173,18 +171,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
         parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-        //parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_FLUORESCENT);
-        //parameters.setColorEffect(Camera.Parameters.EFFECT_NEGATIVE);
         parameters.setPictureFormat(ImageFormat.JPEG);
         parameters.setRotation(90);
         setCameraDisplayOrientation(myApplication.getCameraFacing());
-        /*
-        Camera.Size prev_size = getBestPreviewSize(width, height, parameters);
-        if (prev_size != null) {
-            parameters.setPreviewSize(width, height);
-        }
-        */
-        setPictureSize(parameters);
+        Camera.Size prevSize = determineBestPreviewSize(parameters);
+        parameters.setPreviewSize(prevSize.width, prevSize.height);
+        Camera.Size pictureSize = determineBestPictureSize(parameters);
+        parameters.setPictureSize(pictureSize.width,pictureSize.height);
         mCamera.setParameters(parameters);
     }
 
@@ -240,5 +233,36 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             result = (info.orientation - degrees + 360) % 360;
         }
         mCamera.setDisplayOrientation(result);
+    }
+
+    public static Camera.Size determineBestPreviewSize(Camera.Parameters parameters) {
+        List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
+        return determineBestSize(sizes);
+    }
+
+    public static Camera.Size determineBestPictureSize(Camera.Parameters parameters) {
+        List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
+        return determineBestSize(sizes);
+    }
+
+    protected static Camera.Size determineBestSize(List<Camera.Size> sizes) {
+        Camera.Size bestSize = null;
+        long used = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long availableMemory = Runtime.getRuntime().maxMemory() - used;
+        for (Camera.Size currentSize : sizes) {
+            int newArea = currentSize.width * currentSize.height;
+            // newArea * 4 Bytes/pixel * 4 needed copies of the bitmap (for safety :) )
+            long neededMemory = newArea * 4 * 4;
+            boolean isDesiredRatio = (currentSize.width / 4) == (currentSize.height / 3);
+            boolean isBetterSize = (bestSize == null || currentSize.width > bestSize.width);
+            boolean isSafe = neededMemory < availableMemory;
+            if (isDesiredRatio && isBetterSize && isSafe) {
+                bestSize = currentSize;
+            }
+        }
+        if (bestSize == null) {
+            return sizes.get(0);
+        }
+        return bestSize;
     }
 }
