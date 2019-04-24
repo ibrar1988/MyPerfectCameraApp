@@ -2,6 +2,7 @@ package com.techv.camera1example;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -15,10 +16,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -30,26 +34,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int CAMERA_PERMISSION = 1;
     private int READ_WRITE_PERMISSION = 2;
-    /** States for the flash */
+
     private Context mContext;
     MyApplication myApplication;
     Camera mCamera;
+
     int mCameraId;
     int used_camera_id;
-    RelativeLayout flash_container;
-    ImageButton btnCapture, btnFlashToggle, btnSwitchCamera;
-    private RelativeLayout cameraPreview;
+
+    int window_width = 0;
+    int window_heigth = 0;
+
+    int capture_container_width = 0;
+    int capture_container_heigth = 0;
+
+    RelativeLayout mainLayout, flash_container, captureContainer;
+    ImageButton btnCapture, btnFlashToggle, btnSwitchCamera,btnSetting;
+
+    private FrameLayout cameraPreview;
     private CameraPreview mPreview;
     private AlertDialog alertDialog;
+
     private boolean isPermission = false;
     private int sensorOrientation = -1;
+
     private SensorManager mSensorManager;
     private Sensor mSensorOrientation;
+
     public int mOrientationDeg; //last rotation in degrees
     public int mOrientationRounded; //last orientation int from above
+
     private static final int _DATA_X = 0;
     private static final int _DATA_Y = 1;
     private static final int _DATA_Z = 2;
+
     private int ORIENTATION_UNKNOWN = -1;
     private int tempOrientRounded;
 
@@ -70,12 +88,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSensorOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         myApplication = MyApplication.getInstance();
+        mainLayout = findViewById(R.id.mainLayout);
         cameraPreview = findViewById(R.id.cameraPreview);
         btnCapture = findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(this);
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera);
         btnSwitchCamera.setOnClickListener(this);
-        initializeFlashUI();
+        btnSetting = findViewById(R.id.btnSetting);
+        btnSetting.setOnClickListener(this);
+        btnFlashToggle = findViewById(R.id.btnFlashToggle);
+        btnFlashToggle.setOnClickListener(this);
         flash_container = findViewById(R.id.flash_container);
         checkCameraPermission();
     }
@@ -149,16 +171,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(mCamera==null && isPermission) {
             if(myApplication.isCameraBackFacing()) {
                 if(openCamera(myApplication.getBackCameraId())) {
-                    btnFlashToggle.setVisibility(View.VISIBLE);
-                    btnFlashToggle.setOnClickListener(this);
+                    flash_container.setVisibility(View.VISIBLE);
                     mPreview.refreshCamera(mCamera);
                 } else {
                     showAlert("System Error", "Fail to connect to camera service","finish");
                 }
             } else {
                 if(openCamera(myApplication.getFrontCameraId())) {
-                    btnFlashToggle.setOnClickListener(null);
-                    btnFlashToggle.setVisibility(View.INVISIBLE);
+                    flash_container.setVisibility(View.INVISIBLE);
                     mPreview.refreshCamera(mCamera);
                 } else {
                     showAlert("System Error", "Fail to connect to camera service","finish");
@@ -195,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toggleFlashState();
                 }
                 break;
+            case R.id.btnSetting:
+                showSettingDialog();
+                break;
         }
     }
 
@@ -203,13 +226,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
         return mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-    }
-
-    private void initializeFlashUI(){
-        btnFlashToggle = findViewById(R.id.btnFlashToggle);
-        btnFlashToggle.setOnClickListener(this);
-        flash_container = findViewById(R.id.flash_container);
-        flash_container.setVisibility(View.VISIBLE);
     }
 
     private void checkCameraPermission() {
@@ -229,9 +245,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initCamera(){
         findCameraID();
         if(openCamera(mCameraId)) {
-            mPreview = new CameraPreview(mContext, mCamera);
-            initializeFlashUI();
+            mPreview = new CameraPreview(mContext, mCamera);;
             cameraPreview.addView(mPreview);
+            ViewTreeObserver vto = mainLayout.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    window_width  = mainLayout.getMeasuredWidth();
+                    window_heigth = mainLayout.getMeasuredHeight();
+                    Log.e("Width : " + window_width, "Hieght : " + window_heigth);
+                }
+            });
+
+            captureContainer = (RelativeLayout) findViewById(R.id.capture_button_container);
+
+            ViewTreeObserver viewTreeObserver = captureContainer.getViewTreeObserver();
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    captureContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    capture_container_width  = captureContainer.getMeasuredWidth();
+                    capture_container_heigth= captureContainer.getMeasuredHeight();
+                    Log.e("Width : " + capture_container_width, "Hieght : " + capture_container_heigth);
+                }
+            });
         } else {
             showAlert("System Error", "Fail to connect to camera service","finish");
         }
@@ -283,8 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mCameraId = myApplication.getFrontCameraId();
             if(openCamera(mCameraId)) {
                 if(!hasFlash()) {
-                    btnFlashToggle.setOnClickListener(null);
-                    btnFlashToggle.setVisibility(View.INVISIBLE);
+                    flash_container.setVisibility(View.INVISIBLE);
                 }
                 myApplication.setCameraFrontFacing();
             } else {
@@ -293,8 +330,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             mCameraId = myApplication.getBackCameraId();
             if(openCamera(mCameraId)){
-                btnFlashToggle.setOnClickListener(this);
-                btnFlashToggle.setVisibility(View.VISIBLE);
+                if(hasFlash()) {
+                    flash_container.setVisibility(View.VISIBLE);
+                }
             } else {
                 showAlert("System Error", "Fail to connect to camera service","finish");
             }
@@ -370,6 +408,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPreview.setFlashState(CameraPreview.FLASH_STATE_OFF);
         }
         setFlashIcon();
+    }
+
+    public void showControlUI(){
+        if(myApplication.isCameraBackFacing()) {
+            if(hasFlash()) {
+                flash_container.setVisibility(View.VISIBLE);
+            }
+        }
+        findViewById(R.id.container_setting).setVisibility(View.VISIBLE);
+        findViewById(R.id.container_tillshot).setVisibility(View.VISIBLE);
+        findViewById(R.id.container_switch).setVisibility(View.VISIBLE);
+    }
+    private void hideControlUI(){
+        if(myApplication.isCameraBackFacing()) {
+            flash_container.setVisibility(View.INVISIBLE);
+        }
+        findViewById(R.id.container_setting).setVisibility(View.GONE);
+        findViewById(R.id.container_tillshot).setVisibility(View.GONE);
+        findViewById(R.id.container_switch).setVisibility(View.GONE);
+        captureContainer.getLayoutParams().width = capture_container_width;
+        captureContainer.getLayoutParams().height = capture_container_heigth;
+    }
+
+    private void showSettingDialog(){
+        CameraSettingDialog cameraSettingDialog = new CameraSettingDialog();
+        if(window_width!=0 && window_heigth!=0) {
+            Bundle bundle = new Bundle();
+            bundle.putString("window_width", String.valueOf(window_width));
+            bundle.putString("window_heigth", String.valueOf(window_heigth));
+            cameraSettingDialog.setArguments(bundle);
+        }
+        cameraSettingDialog.show(getSupportFragmentManager(), "camera_setting");
+        hideControlUI();
+    }
+
+    public void setWhiteBalance(String arg){
+        mPreview.configureWhiteBalance(arg);
     }
 
     private void takePicture(){

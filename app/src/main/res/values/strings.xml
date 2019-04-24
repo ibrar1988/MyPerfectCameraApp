@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">Camera1Example</string>
+
+    <array name="white_balance">
+        <item>Auto</item>
+        <item>Incandescent</item>
+        <item>Fluorescent</item>
+        <item>Warm Fluorescent</item>
+        <item>Daylight</item>
+        <item>Cloudy Daylight</item>
+        <item>Twilight</item>
+        <item>Shade</item>
+    </array>
+
+    <array name="focus_mode">
+        <item>Auto</item>
+        <item>Incandescent</item>
+        <item>Fluorescent</item>
+        <item>Warm Fluorescent</item>
+        <item>Daylight</item>
+        <item>Cloudy Daylight</item>
+        <item>Twilight</item>
+        <item>Shade</item>
+    </array>
+
+    <array name="scene_mode">
+        <item>Auto</item>
+        <item>Incandescent</item>
+        <item>Fluorescent</item>
+        <item>Warm Fluorescent</item>
+        <item>Daylight</item>
+        <item>Cloudy Daylight</item>
+        <item>Twilight</item>
+        <item>Shade</item>
+    </array>
+
 </resources>

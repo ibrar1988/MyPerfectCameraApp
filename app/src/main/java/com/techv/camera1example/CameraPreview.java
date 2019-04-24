@@ -1,15 +1,12 @@
 package com.techv.camera1example;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.util.Log;
-import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,7 +33,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mContext = context;
         this.mCamera = camera;
         this.mHolder = getHolder();
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         this.mHolder.addCallback(this);
         myApplication = MyApplication.getInstance();
     }
@@ -142,6 +138,49 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private void setWhiteBalance(String arg, Camera.Parameters parameters) {
+        switch (arg) {
+            case Constants.kAuto_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+                break;
+            case Constants.kIncandescent_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_INCANDESCENT);
+                break;
+            case Constants.kFluorescent_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_FLUORESCENT);
+                break;
+            case Constants.kWarm_Fluorescent_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_WARM_FLUORESCENT);
+                break;
+            case Constants.kDayLight_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_DAYLIGHT);
+                break;
+            case Constants.kCloud_DayLight_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_CLOUDY_DAYLIGHT);
+                break;
+            case Constants.kTwilight_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_TWILIGHT);
+                break;
+            case Constants.kShade_White_Balance:
+                parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_SHADE);
+                break;
+        }
+    }
+
+    public void configureWhiteBalance(String whiteMode) {
+        if(parameters!=null) {
+            setWhiteBalance(whiteMode, parameters);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.startPreview();
+                safeToTakePicture = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void refreshCamera(Camera camera){
         if(mHolder.getSurface()==null) {
             return;
@@ -170,7 +209,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-        parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+        if(LocalStorage.getStringPreference(mContext,Constants.kFluorescent_White_Balance, "").equals("")) {
+            setWhiteBalance(Constants.kFluorescent_White_Balance, parameters);
+        } else {
+            setWhiteBalance(LocalStorage.getStringPreference(mContext,Constants.kFluorescent_White_Balance,Camera.Parameters.WHITE_BALANCE_FLUORESCENT), parameters);
+        }
         parameters.setPictureFormat(ImageFormat.JPEG);
         parameters.setRotation(90);
         setCameraDisplayOrientation(myApplication.getCameraFacing());

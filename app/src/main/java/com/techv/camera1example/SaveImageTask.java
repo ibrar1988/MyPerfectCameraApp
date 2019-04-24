@@ -78,7 +78,6 @@ public class SaveImageTask extends AsyncTask<Void, Void, Void> {
             outStream.flush();
             refreshGallery(filePathToSave);
             newBitmap.recycle();
-            newBitmap = null;
             onPictureSaveListener.onSave(filePathToSave.getPath());
         } catch (Exception e) {
             e.printStackTrace();
