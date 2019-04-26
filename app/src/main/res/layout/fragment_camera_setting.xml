@@ -27,7 +27,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="White balance"
+                    android:text="White Balance"
                     android:textSize="16sp"
                     android:textColor="@color/textcolorwhite"/>
 
@@ -57,12 +57,42 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Focus mode"
+                    android:text="Focus Mode"
                     android:textSize="16sp"
                     android:textColor="@color/textcolorwhite"/>
 
                 <Spinner
                     android:id="@+id/spinner_focus_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/textcolorwhite"
+                    android:foregroundTint="@color/textcolorwhite"
+                    android:entries="@array/white_balance"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#a8a8a8"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Color Effect"
+                    android:textSize="16sp"
+                    android:textColor="@color/textcolorwhite"/>
+
+                <Spinner
+                    android:id="@+id/spinner_color_effect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/textcolorwhite"/>
@@ -85,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Scene mode"
+                    android:text="Scene Mode"
                     android:textSize="16sp"
                     android:textColor="@color/textcolorwhite"/>
 

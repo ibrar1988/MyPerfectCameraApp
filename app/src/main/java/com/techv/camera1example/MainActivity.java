@@ -295,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             mCamera = Camera.open(id);
             if(hasFlash()) {
+                if(flash_container.getVisibility()==View.INVISIBLE)
                 flash_container.setVisibility(View.VISIBLE);
             } else {
                 flash_container.setVisibility(View.INVISIBLE);
@@ -331,12 +332,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mCameraId = myApplication.getBackCameraId();
             if(openCamera(mCameraId)){
                 if(hasFlash()) {
-                    flash_container.setVisibility(View.VISIBLE);
+                    if(flash_container.getVisibility()==View.INVISIBLE)
+                        flash_container.setVisibility(View.VISIBLE);
                 }
             } else {
                 showAlert("System Error", "Fail to connect to camera service","finish");
             }
             myApplication.setCameraBackFacing();
+            showControlUI();
         }
         mPreview.setCamera(mCamera);
         mPreview.surfaceChanged(mPreview.getHolder(), ImageFormat.JPEG, mPreview.getPrev_width(), mPreview.getPre_height());
@@ -411,19 +414,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showControlUI(){
-        if(myApplication.isCameraBackFacing()) {
+        /*if(myApplication.isCameraBackFacing()) {
             if(hasFlash()) {
+                if(flash_container.getVisibility()==View.INVISIBLE)
                 flash_container.setVisibility(View.VISIBLE);
             }
-        }
+        }*/
         findViewById(R.id.container_setting).setVisibility(View.VISIBLE);
         findViewById(R.id.container_tillshot).setVisibility(View.VISIBLE);
         findViewById(R.id.container_switch).setVisibility(View.VISIBLE);
     }
+
     private void hideControlUI(){
-        if(myApplication.isCameraBackFacing()) {
+        /*if(myApplication.isCameraBackFacing()) {
             flash_container.setVisibility(View.INVISIBLE);
-        }
+        }*/
         findViewById(R.id.container_setting).setVisibility(View.GONE);
         findViewById(R.id.container_tillshot).setVisibility(View.GONE);
         findViewById(R.id.container_switch).setVisibility(View.GONE);
@@ -439,12 +444,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bundle.putString("window_heigth", String.valueOf(window_heigth));
             cameraSettingDialog.setArguments(bundle);
         }
-        cameraSettingDialog.show(getSupportFragmentManager(), "camera_setting");
         hideControlUI();
+        cameraSettingDialog.show(getSupportFragmentManager(), "camera_setting");
     }
 
-    public void setWhiteBalance(String arg){
+    public void setWhiteBalance(String arg) {
         mPreview.configureWhiteBalance(arg);
+    }
+
+    public void setFocusMode(String arg) {
+        mPreview.configureFocusMode(arg);
+    }
+
+    public void setColorEffect(String arg) {
+        mPreview.configureColorEffect(arg);
+    }
+
+    public void setSceneMode(String arg) {
+        mPreview.configureSceneMode(arg);
     }
 
     private void takePicture(){

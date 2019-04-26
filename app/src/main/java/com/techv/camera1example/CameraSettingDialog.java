@@ -46,6 +46,9 @@ public class CameraSettingDialog extends DialogFragment implements View.OnClickL
         mFragment = inflater.inflate(R.layout.fragment_camera_setting,container,false);
         mFragment.findViewById(R.id.btn_close_dialog).setOnClickListener(this);
         handleWhiteBalance();
+        handleFocusMode();
+        handleColorEffect();
+        handleSceneMode();
         return mFragment;
     }
 
@@ -99,7 +102,7 @@ public class CameraSettingDialog extends DialogFragment implements View.OnClickL
     }
 
     private void handleWhiteBalance(){
-        final String item = LocalStorage.getStringPreference(mActivity,Constants.kFluorescent_White_Balance, "");
+        final String item = LocalStorage.getStringPreference(mActivity,Constants.kDefault_White_Balance, "");
         int position;
         Spinner spinner_white_balance =  ((Spinner)mFragment.findViewById(R.id.spinner_white_balance));
         spinner_white_balance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -109,7 +112,7 @@ public class CameraSettingDialog extends DialogFragment implements View.OnClickL
                 String selected_item = (String) parent.getSelectedItem();
                 if(!selected_item.equalsIgnoreCase(item)) {
                     mActivity.setWhiteBalance(selected_item);
-                    LocalStorage.saveStringPreference(mActivity, Constants.kFluorescent_White_Balance, selected_item);
+                    LocalStorage.saveStringPreference(mActivity, Constants.kDefault_White_Balance, selected_item);
                 }
             }
 
@@ -128,11 +131,94 @@ public class CameraSettingDialog extends DialogFragment implements View.OnClickL
         }
     }
 
-    private void handleFocusMode() {
+    private void handleFocusMode(){
+        final String item = LocalStorage.getStringPreference(mActivity,Constants.kDefault_Focus_Mode, "");
+        int position;
+        Spinner spinner_focus_mode =  ((Spinner)mFragment.findViewById(R.id.spinner_focus_mode));
+        spinner_focus_mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
+                String selected_item = (String) parent.getSelectedItem();
+                if(!selected_item.equalsIgnoreCase(item)) {
+                    mActivity.setFocusMode(selected_item);
+                    LocalStorage.saveStringPreference(mActivity, Constants.kDefault_Focus_Mode, selected_item);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ArrayAdapter arrayAdapter = (ArrayAdapter) spinner_focus_mode.getAdapter();
+        if(item.equals("")) {
+            position = arrayAdapter.getPosition(Constants.kDefault_Focus_Mode);
+            spinner_focus_mode.setSelection(position);
+        } else {
+            position = arrayAdapter.getPosition(item);
+            spinner_focus_mode.setSelection(position);
+        }
+    }
+
+    private void handleColorEffect() {
+        final String item = LocalStorage.getStringPreference(mActivity,Constants.kDefault_Color, "");
+        int position;
+        Spinner spinner_color_effect =  ((Spinner)mFragment.findViewById(R.id.spinner_color_effect));
+        spinner_color_effect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
+                String selected_item = (String) parent.getSelectedItem();
+                if(!selected_item.equalsIgnoreCase(item)) {
+                    mActivity.setColorEffect(selected_item);
+                    LocalStorage.saveStringPreference(mActivity, Constants.kDefault_Color, selected_item);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ArrayAdapter arrayAdapter = (ArrayAdapter) spinner_color_effect.getAdapter();
+        if(item.equals("")) {
+            position = arrayAdapter.getPosition(Constants.kDefault_Color);
+            spinner_color_effect.setSelection(position);
+        } else {
+            position = arrayAdapter.getPosition(item);
+            spinner_color_effect.setSelection(position);
+        }
     }
 
     private void handleSceneMode(){
+        final String item = LocalStorage.getStringPreference(mActivity,Constants.kDefault_Scene, "");
+        int position;
+        Spinner spinner_scene_mode =  ((Spinner)mFragment.findViewById(R.id.spinner_scene_mode));
+        spinner_scene_mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
+                String selected_item = (String) parent.getSelectedItem();
+                if(!selected_item.equalsIgnoreCase(item)) {
+                    mActivity.setSceneMode(selected_item);
+                    LocalStorage.saveStringPreference(mActivity, Constants.kDefault_Scene, selected_item);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ArrayAdapter arrayAdapter = (ArrayAdapter) spinner_scene_mode.getAdapter();
+        if(item.equals("")) {
+            position = arrayAdapter.getPosition(Constants.kDefault_Color);
+            spinner_scene_mode.setSelection(position);
+        } else {
+            position = arrayAdapter.getPosition(item);
+            spinner_scene_mode.setSelection(position);
+        }
 
     }
 }

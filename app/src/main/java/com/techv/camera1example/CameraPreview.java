@@ -167,9 +167,165 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private void setFocusMode(String arg, Camera.Parameters parameters) {
+        switch (arg) {
+            case Constants.kFocus_Mode_Auto:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                break;
+            case Constants.kFocus_Mode_Infinity:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
+                break;
+            case Constants.kFocus_Mode_Macro:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
+                break;
+            case Constants.kFocus_Mode_Fixed:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);
+                break;
+            case Constants.kFocus_Mode_Edof:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_EDOF);
+                break;
+            case Constants.kFocus_Mode_Continue_Video:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+                break;
+            case Constants.kFocus_Mode_Countinue_Picture:
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                break;
+        }
+    }
+
+    private void setColorEffect(String arg, Camera.Parameters parameters) {
+        switch (arg) {
+            case Constants.kNone_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
+                break;
+            case Constants.kMono_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_MONO);
+                break;
+            case Constants.kNegative_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_NEGATIVE);
+                break;
+            case Constants.kSolarize_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_SOLARIZE);
+                break;
+            case Constants.kSofia_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_SEPIA);
+                break;
+            case Constants.kPosterize_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_POSTERIZE);
+                break;
+            case Constants.kWhiteboard_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_WHITEBOARD);
+                break;
+            case Constants.kBlackboard_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_BLACKBOARD);
+                break;
+            case Constants.kAqua_Color:
+                parameters.setColorEffect(Camera.Parameters.EFFECT_AQUA);
+                break;
+        }
+    }
+
+    private void setSceneMode(String arg, Camera.Parameters parameters) {
+        switch (arg) {
+            case Constants.kScene_Mode_Auto:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+                break;
+            case Constants.kScene_Mode_action:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_ACTION);
+                break;
+            case Constants.kScene_Mode_portrait:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_PORTRAIT);
+                break;
+            case Constants.kScene_Mode_landscape:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_LANDSCAPE);
+                break;
+            case Constants.kScene_Mode_night:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_NIGHT);
+                break;
+            case Constants.kScene_Mode_night_portrait:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_NIGHT_PORTRAIT);
+                break;
+            case Constants.kScene_Mode_thread:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_THEATRE);
+                break;
+            case Constants.kScene_Mode_beach:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_BEACH);
+                break;
+            case Constants.kScene_Mode_snow:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_SNOW);
+                break;
+            case Constants.kScene_Mode_sunset:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_SUNSET);
+                break;
+            case Constants.kScene_Mode_steadyphoto:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_STEADYPHOTO);
+                break;
+            case Constants.kScene_Mode_fireworks:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_FIREWORKS);
+                break;
+            case Constants.kScene_Mode_sports:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_SPORTS);
+                break;
+            case Constants.kScene_Mode_party:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_PARTY);
+                break;
+            case Constants.kScene_Mode_candlelight:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_CANDLELIGHT);
+                break;
+            case Constants.kScene_Mode_barcdoe:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_BARCODE);
+                break;
+            case Constants.kScene_Mode_hdr:
+                parameters.setSceneMode(Camera.Parameters.SCENE_MODE_HDR);
+                break;
+        }
+    }
+
     public void configureWhiteBalance(String whiteMode) {
         if(parameters!=null) {
             setWhiteBalance(whiteMode, parameters);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.startPreview();
+                safeToTakePicture = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void configureFocusMode(String focusMode){
+        if(parameters!=null) {
+            setFocusMode(focusMode, parameters);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.startPreview();
+                safeToTakePicture = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void configureColorEffect(String effect) {
+        if(parameters!=null) {
+            setColorEffect(effect, parameters);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.startPreview();
+                safeToTakePicture = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void configureSceneMode(String scenemode) {
+        if(parameters!=null) {
+            setSceneMode(scenemode, parameters);
             mCamera.setParameters(parameters);
             try {
                 mCamera.setPreviewDisplay(mHolder);
@@ -207,12 +363,29 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         else if(getFlashState() == CameraPreview.FLASH_STATE_AUTO){
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
         }
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-        if(LocalStorage.getStringPreference(mContext,Constants.kFluorescent_White_Balance, "").equals("")) {
+
+        if(LocalStorage.getStringPreference(mContext,Constants.kDefault_White_Balance, "").equals("")) {
             setWhiteBalance(Constants.kFluorescent_White_Balance, parameters);
         } else {
-            setWhiteBalance(LocalStorage.getStringPreference(mContext,Constants.kFluorescent_White_Balance,Camera.Parameters.WHITE_BALANCE_FLUORESCENT), parameters);
+            setWhiteBalance(LocalStorage.getStringPreference(mContext,Constants.kDefault_White_Balance,Camera.Parameters.WHITE_BALANCE_FLUORESCENT), parameters);
+        }
+
+        if(LocalStorage.getStringPreference(mContext,Constants.kDefault_Focus_Mode, "").equals("")) {
+            setFocusMode(Constants.kFocus_Mode_Countinue_Picture, parameters);
+        } else {
+            setFocusMode(LocalStorage.getStringPreference(mContext,Constants.kDefault_Focus_Mode,Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE), parameters);
+        }
+
+        if(LocalStorage.getStringPreference(mContext,Constants.kDefault_Color, "").equals("")) {
+            setColorEffect(Constants.kNone_Color, parameters);
+        } else {
+            setColorEffect(LocalStorage.getStringPreference(mContext,Constants.kDefault_Color,Camera.Parameters.EFFECT_NONE), parameters);
+        }
+
+        if(LocalStorage.getStringPreference(mContext,Constants.kDefault_Scene, "").equals("")) {
+            setSceneMode(Constants.kScene_Mode_Auto, parameters);
+        } else {
+            setSceneMode(LocalStorage.getStringPreference(mContext,Constants.kDefault_Scene,Camera.Parameters.SCENE_MODE_AUTO), parameters);
         }
         parameters.setPictureFormat(ImageFormat.JPEG);
         parameters.setRotation(90);
