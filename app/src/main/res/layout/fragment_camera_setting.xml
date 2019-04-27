@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/textcolorwhite"
                     android:foregroundTint="@color/textcolorwhite"
-                    android:entries="@array/white_balance"/>
+                    android:entries="@array/focus_mode"/>
 
             </LinearLayout>
 
@@ -95,7 +95,8 @@
                     android:id="@+id/spinner_color_effect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/textcolorwhite"/>
+                    android:backgroundTint="@color/textcolorwhite"
+                    android:entries="@array/color_effect"/>
 
             </LinearLayout>
 
@@ -123,7 +124,8 @@
                     android:id="@+id/spinner_scene_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/textcolorwhite"/>
+                    android:backgroundTint="@color/textcolorwhite"
+                    android:entries="@array/scene_mode"/>
 
             </LinearLayout>
 

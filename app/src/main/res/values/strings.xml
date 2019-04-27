@@ -14,35 +14,44 @@
 
     <array name="focus_mode">
         <item>Auto</item>
-        <item>Incandescent</item>
-        <item>Fluorescent</item>
-        <item>Warm Fluorescent</item>
-        <item>Daylight</item>
-        <item>Cloudy Daylight</item>
-        <item>Twilight</item>
-        <item>Shade</item>
+        <item>Infinity</item>
+        <item>Macro</item>
+        <item>Fixed</item>
+        <item>Edof</item>
+        <item>Continuous Video</item>
+        <item>Continuous Picture</item>
     </array>
 
     <array name="color_effect">
-        <item>Auto</item>
-        <item>Incandescent</item>
-        <item>Fluorescent</item>
-        <item>Warm Fluorescent</item>
-        <item>Daylight</item>
-        <item>Cloudy Daylight</item>
-        <item>Twilight</item>
-        <item>Shade</item>
+        <item>None</item>
+        <item>Mono</item>
+        <item>Negative</item>
+        <item>solarize</item>
+        <item>Sepia</item>
+        <item>Posterize</item>
+        <item>Whiteboard</item>
+        <item>Blackboard</item>
+        <item>Aqua</item>
     </array>
 
     <array name="scene_mode">
         <item>Auto</item>
-        <item>Incandescent</item>
-        <item>Fluorescent</item>
-        <item>Warm Fluorescent</item>
-        <item>Daylight</item>
-        <item>Cloudy Daylight</item>
-        <item>Twilight</item>
-        <item>Shade</item>
+        <item>Action</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+        <item>Night</item>
+        <item>Night Portrait</item>
+        <item>Theatre</item>
+        <item>Beach</item>
+        <item>Snow</item>
+        <item>Sunset</item>
+        <item>Steadyphoto</item>
+        <item>Fireworks</item>
+        <item>Sports</item>
+        <item>Party</item>
+        <item>Candlelight</item>
+        <item>Barcode</item>
+        <item>HDR</item>
     </array>
 
 </resources>

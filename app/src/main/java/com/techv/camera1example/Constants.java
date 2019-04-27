@@ -1,6 +1,7 @@
 package com.techv.camera1example;
 
 class Constants {
+    // White Balance
     static final String kDefault_White_Balance = "default_white_balance";
     static final String kAuto_White_Balance = "Auto";
     static final String kIncandescent_White_Balance = "Incandescent";
@@ -11,15 +12,17 @@ class Constants {
     static final String kTwilight_White_Balance = "Twilight";
     static final String kShade_White_Balance = "Shade";
 
+    // Focus Modes
     static final String kDefault_Focus_Mode = "default_focus_mode";
-    static final String kFocus_Mode_Auto = "auto";
-    static final String kFocus_Mode_Infinity = "infinity";
-    static final String kFocus_Mode_Macro = "macro";
-    static final String kFocus_Mode_Fixed = "fixed";
-    static final String kFocus_Mode_Edof = "edof";
-    static final String kFocus_Mode_Continue_Video = "continuous-video";
-    static final String kFocus_Mode_Countinue_Picture = "continuous-picture";
+    static final String kFocus_Mode_Auto = "Auto";
+    static final String kFocus_Mode_Infinity = "Infinity";
+    static final String kFocus_Mode_Macro = "Macro";
+    static final String kFocus_Mode_Fixed = "Fixed";
+    static final String kFocus_Mode_Edof = "Edof";
+    static final String kFocus_Mode_Continue_Video = "Continuous Video";
+    static final String kFocus_Mode_Countinue_Picture = "Continuous Picture";
 
+    // Color Effects
     static final String kDefault_Color = "default_color";
     static final String kNone_Color = "None";
     static final String kMono_Color = "Mono";
@@ -31,22 +34,23 @@ class Constants {
     static final String kBlackboard_Color = "Blackboard";
     static final String kAqua_Color = "Aqua";
 
+    // Scene Mode
     static final String kDefault_Scene = "default_scene";
-    static final String kScene_Mode_Auto = "auto";
-    static final String kScene_Mode_action = "action";
-    static final String kScene_Mode_portrait = "portrait";
-    static final String kScene_Mode_landscape = "landscape";
-    static final String kScene_Mode_night = "night";
-    static final String kScene_Mode_night_portrait = "night-portrait";
-    static final String kScene_Mode_thread = "theatre";
-    static final String kScene_Mode_beach = "beach";
-    static final String kScene_Mode_snow = "snow";
-    static final String kScene_Mode_sunset = "sunset";
-    static final String kScene_Mode_steadyphoto = "steadyphoto";
-    static final String kScene_Mode_fireworks = "fireworks";
-    static final String kScene_Mode_sports = "sports";
-    static final String kScene_Mode_party = "party";
-    static final String kScene_Mode_candlelight = "candlelight";
-    static final String kScene_Mode_barcdoe = "barcode";
-    static final String kScene_Mode_hdr = "hdr";
+    static final String kScene_Mode_Auto = "Auto";
+    static final String kScene_Mode_action = "Action";
+    static final String kScene_Mode_portrait = "Portrait";
+    static final String kScene_Mode_landscape = "Landscape";
+    static final String kScene_Mode_night = "Night";
+    static final String kScene_Mode_night_portrait = "Night Portrait";
+    static final String kScene_Mode_thread = "Theatre";
+    static final String kScene_Mode_beach = "Beach";
+    static final String kScene_Mode_snow = "Snow";
+    static final String kScene_Mode_sunset = "Sunset";
+    static final String kScene_Mode_steadyphoto = "Steadyphoto";
+    static final String kScene_Mode_fireworks = "Fireworks";
+    static final String kScene_Mode_sports = "Sports";
+    static final String kScene_Mode_party = "Party";
+    static final String kScene_Mode_candlelight = "Candlelight";
+    static final String kScene_Mode_barcdoe = "Barcode";
+    static final String kScene_Mode_hdr = "HDR";
 }
